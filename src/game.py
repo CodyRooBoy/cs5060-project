@@ -63,7 +63,7 @@ class Connect4Env(gym.Env):
     
     def _evaluate_game(self):
         if self.check_win(self.board, self.current_player):
-            return 1, True
+            return 1 if self.current_player == 1 else -1, True
         elif self.check_draw(self.board):
             return 0, True
         return 0, False

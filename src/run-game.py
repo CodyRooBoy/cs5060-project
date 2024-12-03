@@ -3,7 +3,7 @@ from stable_baselines3 import DQN
 from game import Connect4Env
 
 env = Connect4Env()
-model = DQN("MlpPolicy", env, verbose=1)
+model = DQN("MlpPolicy", env, verbose=1, tensorboard_log="./dqn_tensorboard_logs/", learning_rate=.01)
 model.learn(total_timesteps=10000)
 
 obs = env.reset()
