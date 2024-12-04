@@ -2,6 +2,9 @@ import numpy as np
 import gym
 from gym import spaces
 
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="stable_baselines3.common.vec_env.patch_gym")
+
 class Connect4Env(gym.Env):
     def __init__(self):
         super(Connect4Env, self).__init__()
