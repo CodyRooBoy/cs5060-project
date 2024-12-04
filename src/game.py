@@ -37,29 +37,32 @@ class Connect4Env(gym.Env):
                 self.board[row][column] = self.current_player
                 break
 
-    def check_win(self, board, player):
+    def check_x_in_row(self, board, player, x):
         rows, cols = len(board), len(board[0])
         for row in range(rows):
-            for col in range(cols - 3):
-                if all(board[row][col + i] == player for i in range(4)):
+            for col in range(cols - (x - 1)):
+                if all(board[row][col + i] == player for i in range(x)):
                     return True
 
         for col in range(cols):
-            for row in range(rows - 3):
-                if all(board[row + i][col] == player for i in range(4)):
+            for row in range(rows - (x - 1)):
+                if all(board[row + i][col] == player for i in range(x)):
                     return True
 
-        for row in range(rows - 3):
-            for col in range(cols - 3):
-                if all(board[row + i][col + i] == player for i in range(4)):
+        for row in range(rows - (x - 1)):
+            for col in range(cols - (x - 1)):
+                if all(board[row + i][col + i] == player for i in range(x)):
                     return True
 
-        for row in range(3, rows):
-            for col in range(cols - 3):
-                if all(board[row - i][col + i] == player for i in range(4)):
+        for row in range((x - 1), rows):
+            for col in range(cols - (x - 1)):
+                if all(board[row - i][col + i] == player for i in range(x)):
                     return True
-
+                
         return False
+
+    def check_win(self, board, player):
+        return self.check_x_in_row(board, player, 4)
     
     def check_draw(self, board):
         return all(cell != 0 for row in board for cell in row)
