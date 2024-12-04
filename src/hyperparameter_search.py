@@ -44,7 +44,6 @@ param_grid = {
     "learning_rate": [0.001, 0.0005, 0.01],
     "gamma": [0.99, 0.98, 0.9],
     "batch_size": [32, 64],
-    "train_freq": [4, 8],
 }
 
 
