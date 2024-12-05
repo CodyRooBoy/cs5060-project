@@ -4,6 +4,7 @@ from game import Connect4Env
 from random_vs_model import play_against_random
 from random_games import graph_results
 from itertools import product
+import torch
 
 def generate_model_name(params):
     return "_".join([f"{key}={str(value).replace('.', '')}" for key, value in params.items()])
@@ -20,7 +21,12 @@ def train_and_evaluate_grid_search(param_combinations, param_names, env, n_eval_
             if verbosity == 1:
                 print(f"Training model {model_name} with parameters: {params}")
 
-            model = DQN("MlpPolicy", env, verbose=verbosity, tensorboard_log=f"./dqn_tensorboard_logs/{model_name}/", **params)
+            policy_kwargs = dict(
+                net_arch=[256, 256, 256],
+                activation_fn=torch.nn.ReLU
+            )
+
+            model = DQN("MlpPolicy", env, policy_kwargs=policy_kwargs, verbose=verbosity, tensorboard_log=f"./dqn_tensorboard_logs/{model_name}/", **params)
             model.learn(total_timesteps=100_000)
             
             games_list = play_against_random(env, model, n_games=n_eval_games)
